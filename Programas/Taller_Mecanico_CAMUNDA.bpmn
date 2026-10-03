@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+ xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+ xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+ id="Definitions_Taller"
+ targetNamespace="http://bpmn.io/schema/bpmn">
+  <process id="Process_TallerMecanico" name="Taller Mecánico" isExecutable="false">
+    <startEvent id="StartEvent_1" name="Inicio"/>
+    <task id="Task_Recibir" name="Recibir vehículo"/>
+    <task id="Task_Registrar" name="Registrar datos del cliente y vehículo"/>
+    <task id="Task_Diagnostico" name="Realizar diagnóstico"/>
+    <exclusiveGateway id="Gateway_Servicio" name="Seleccionar tipo de servicio"/>
+    <task id="Task_Aceite" name="Cambio de aceite"/>
+    <task id="Task_Frenos" name="Frenos"/>
+    <task id="Task_Motor" name="Trabajo de motor"/>
+    <exclusiveGateway id="Gateway_Reunion" name="Reunir servicios"/>
+    <task id="Task_Prueba" name="Realizar prueba de calidad"/>
+    <exclusiveGateway id="Gateway_Espera" name="¿El cliente espera?"/>
+    <task id="Task_Informar" name="Informar hora para recoger el vehículo"/>
+    <task id="Task_Regresa" name="Cliente regresa a recoger el vehículo"/>
+    <task id="Task_Entregar" name="Entregar vehículo al cliente"/>
+    <task id="Task_RegistrarSalida" name="Registrar salida y entrega"/>
+    <endEvent id="EndEvent_1" name="Fin"/>
+
+    <sequenceFlow id="F1" sourceRef="StartEvent_1" targetRef="Task_Recibir"/>
+    <sequenceFlow id="F2" sourceRef="Task_Recibir" targetRef="Task_Registrar"/>
+    <sequenceFlow id="F3" sourceRef="Task_Registrar" targetRef="Task_Diagnostico"/>
+    <sequenceFlow id="F4" sourceRef="Task_Diagnostico" targetRef="Gateway_Servicio"/>
+    <sequenceFlow id="F5" sourceRef="Gateway_Servicio" targetRef="Task_Aceite" name="Cambio de aceite"/>
+    <sequenceFlow id="F6" sourceRef="Gateway_Servicio" targetRef="Task_Frenos" name="Frenos"/>
+    <sequenceFlow id="F7" sourceRef="Gateway_Servicio" targetRef="Task_Motor" name="Trabajo de motor"/>
+    <sequenceFlow id="F8" sourceRef="Task_Aceite" targetRef="Gateway_Reunion"/>
+    <sequenceFlow id="F9" sourceRef="Task_Frenos" targetRef="Gateway_Reunion"/>
+    <sequenceFlow id="F10" sourceRef="Task_Motor" targetRef="Gateway_Reunion"/>
+    <sequenceFlow id="F11" sourceRef="Gateway_Reunion" targetRef="Task_Prueba"/>
+    <sequenceFlow id="F12" sourceRef="Task_Prueba" targetRef="Gateway_Espera"/>
+    <sequenceFlow id="F13" sourceRef="Gateway_Espera" targetRef="Task_Entregar" name="Sí"/>
+    <sequenceFlow id="F14" sourceRef="Gateway_Espera" targetRef="Task_Informar" name="No"/>
+    <sequenceFlow id="F15" sourceRef="Task_Informar" targetRef="Task_Regresa"/>
+    <sequenceFlow id="F16" sourceRef="Task_Regresa" targetRef="Task_Entregar"/>
+    <sequenceFlow id="F17" sourceRef="Task_Entregar" targetRef="Task_RegistrarSalida"/>
+    <sequenceFlow id="F18" sourceRef="Task_RegistrarSalida" targetRef="EndEvent_1"/>
+  </process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_Taller">
+    <bpmndi:BPMNPlane id="BPMNPlane_Taller" bpmnElement="Process_TallerMecanico">
+      <bpmndi:BPMNShape id="DI_Start" bpmnElement="StartEvent_1"><omgdc:Bounds x="60" y="260" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Recibir" bpmnElement="Task_Recibir"><omgdc:Bounds x="130" y="238" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Registrar" bpmnElement="Task_Registrar"><omgdc:Bounds x="285" y="238" width="150" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Diagnostico" bpmnElement="Task_Diagnostico"><omgdc:Bounds x="470" y="238" width="130" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Servicio" bpmnElement="Gateway_Servicio" isMarkerVisible="true"><omgdc:Bounds x="635" y="253" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Aceite" bpmnElement="Task_Aceite"><omgdc:Bounds x="735" y="110" width="140" height="70"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Frenos" bpmnElement="Task_Frenos"><omgdc:Bounds x="735" y="230" width="140" height="70"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Motor" bpmnElement="Task_Motor"><omgdc:Bounds x="735" y="350" width="140" height="70"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Reunion" bpmnElement="Gateway_Reunion" isMarkerVisible="true"><omgdc:Bounds x="920" y="253" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Prueba" bpmnElement="Task_Prueba"><omgdc:Bounds x="1015" y="238" width="145" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Espera" bpmnElement="Gateway_Espera" isMarkerVisible="true"><omgdc:Bounds x="1205" y="253" width="50" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Informar" bpmnElement="Task_Informar"><omgdc:Bounds x="1320" y="370" width="170" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Regresa" bpmnElement="Task_Regresa"><omgdc:Bounds x="1540" y="370" width="175" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Entregar" bpmnElement="Task_Entregar"><omgdc:Bounds x="1320" y="238" width="170" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Salida" bpmnElement="Task_RegistrarSalida"><omgdc:Bounds x="1540" y="238" width="175" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_End" bpmnElement="EndEvent_1"><omgdc:Bounds x="1760" y="260" width="36" height="36"/></bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="E1" bpmnElement="F1"><omgdi:waypoint x="96" y="278"/><omgdi:waypoint x="130" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E2" bpmnElement="F2"><omgdi:waypoint x="250" y="278"/><omgdi:waypoint x="285" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E3" bpmnElement="F3"><omgdi:waypoint x="435" y="278"/><omgdi:waypoint x="470" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E4" bpmnElement="F4"><omgdi:waypoint x="600" y="278"/><omgdi:waypoint x="635" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E5" bpmnElement="F5"><omgdi:waypoint x="685" y="278"/><omgdi:waypoint x="705" y="278"/><omgdi:waypoint x="705" y="145"/><omgdi:waypoint x="735" y="145"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E6" bpmnElement="F6"><omgdi:waypoint x="685" y="278"/><omgdi:waypoint x="735" y="265"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E7" bpmnElement="F7"><omgdi:waypoint x="685" y="278"/><omgdi:waypoint x="705" y="278"/><omgdi:waypoint x="705" y="385"/><omgdi:waypoint x="735" y="385"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E8" bpmnElement="F8"><omgdi:waypoint x="875" y="145"/><omgdi:waypoint x="895" y="145"/><omgdi:waypoint x="895" y="278"/><omgdi:waypoint x="920" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E9" bpmnElement="F9"><omgdi:waypoint x="875" y="265"/><omgdi:waypoint x="920" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E10" bpmnElement="F10"><omgdi:waypoint x="875" y="385"/><omgdi:waypoint x="895" y="385"/><omgdi:waypoint x="895" y="278"/><omgdi:waypoint x="920" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E11" bpmnElement="F11"><omgdi:waypoint x="970" y="278"/><omgdi:waypoint x="1015" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E12" bpmnElement="F12"><omgdi:waypoint x="1160" y="278"/><omgdi:waypoint x="1205" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E13" bpmnElement="F13"><omgdi:waypoint x="1255" y="278"/><omgdi:waypoint x="1320" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E14" bpmnElement="F14"><omgdi:waypoint x="1230" y="303"/><omgdi:waypoint x="1230" y="410"/><omgdi:waypoint x="1320" y="410"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E15" bpmnElement="F15"><omgdi:waypoint x="1490" y="410"/><omgdi:waypoint x="1540" y="410"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E16" bpmnElement="F16"><omgdi:waypoint x="1627" y="370"/><omgdi:waypoint x="1627" y="330"/><omgdi:waypoint x="1405" y="330"/><omgdi:waypoint x="1405" y="318"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E17" bpmnElement="F17"><omgdi:waypoint x="1490" y="278"/><omgdi:waypoint x="1540" y="278"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E18" bpmnElement="F18"><omgdi:waypoint x="1715" y="278"/><omgdi:waypoint x="1760" y="278"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
